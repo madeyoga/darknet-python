@@ -9,7 +9,7 @@ def visualize_bboxes(img, predictions):
     props = dict(boxstyle='round', facecolor='white', alpha=0.5)
     
     for p in predictions:
-        label, (x,y,w,h) = p
+        label, conf, (x,y,w,h) = p
         rect = Rectangle((x,y),
                          w,
                          h,
@@ -18,9 +18,12 @@ def visualize_bboxes(img, predictions):
                          alpha=0.5)
         ax.add_patch(rect)
 
-        ax.text(x, y-12, label,
-                 bbox={'facecolor':'white','alpha':0.5,'edgecolor':'none','pad':1},
-                 va='center')
+        ax.text(x,
+                y-12,
+                '{}: {}%'.format(label, int(conf*100)),
+                fontsize=9,
+                bbox={'facecolor':'white','alpha':0.5,'edgecolor':'none','pad':1},
+                va='center')
 
     ax.get_xaxis().set_ticks([])
     ax.get_yaxis().set_ticks([])
@@ -31,7 +34,7 @@ def decode_output(predictions):
     res = {}
 
     for p in predictions:
-        label, box = p
+        label, _, box = p
         if not label in res:
             res[label] = []
             res[label].append(box)
