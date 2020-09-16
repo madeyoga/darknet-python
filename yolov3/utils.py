@@ -27,4 +27,15 @@ def visualize_bboxes(img, predictions):
     
     return plt.show()
         
-    
+def decode_output(predictions):
+    res = {}
+
+    for p in predictions:
+        label, box = p
+        if not label in res:
+            res[label] = []
+            res[label].append(box)
+        else:
+            res[label].append(box)
+
+    return res
