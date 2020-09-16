@@ -57,9 +57,10 @@ class Model:
         return entries
 
 if __name__ == '__main__':
-    from utils import visualize_bboxes
+    from utils import visualize_bboxes, decode_output
+    import json
     
-    img = cv2.imread('test/test2.jpg')
+    img = cv2.imread('test_set/test2.jpg')
     
     classes = ["left_data",
                "right_data",
@@ -77,9 +78,12 @@ if __name__ == '__main__':
     res = model.detect_bboxes(img)
     
     visualize_bboxes(img, res)
+    
+    print(json.dumps(decode_output(res), sort_keys=True, indent=2))
+    
+##    img = cv2.imread('test_set/sample16.jpg')
+##    
+##    res = model.detect_bboxes(img)
+##    
+##    visualize_bboxes(img, res)
 
-    img = cv2.imread('test/sample16.jpg')
-    
-    res = model.detect_bboxes(img)
-    
-    visualize_bboxes(img, res)
